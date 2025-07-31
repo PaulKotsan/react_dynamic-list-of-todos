@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { TodoListProps } from '../../types/CommonTypes';
 
 export const TodoList: React.FC<TodoListProps> = ({
@@ -6,8 +6,6 @@ export const TodoList: React.FC<TodoListProps> = ({
   onTodoSelected,
   currentTodoId,
 }) => {
-  const [todoSelected, setTodoSelected] = useState(false);
-
   return (
     <table className="table is-narrow is-fullwidth">
       <thead>
@@ -26,7 +24,13 @@ export const TodoList: React.FC<TodoListProps> = ({
       <tbody>
         {listOfVisibleTodos?.map(todo => (
           <>
-            <tr data-cy="todo" className="" key={todo.id}>
+            <tr
+              data-cy="todo"
+              className={
+                currentTodoId === todo.id ? 'has-background-link-light' : ''
+              }
+              key={todo.id}
+            >
               <td className="is-vcentered">{todo.id}</td>
               <td className="is-vcentered">
                 {todo.completed && (
@@ -49,11 +53,10 @@ export const TodoList: React.FC<TodoListProps> = ({
                   type="button"
                   onClick={() => {
                     onTodoSelected(todo);
-                    setTodoSelected(true);
                   }}
                 >
                   <span className="icon">
-                    {todoSelected === true && currentTodoId === todo.id ? (
+                    {currentTodoId === todo.id ? (
                       <i className="far fa-eye-slash" />
                     ) : (
                       <i className="far fa-eye" />
